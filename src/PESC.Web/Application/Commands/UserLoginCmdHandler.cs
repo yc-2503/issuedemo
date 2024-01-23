@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
+using MediatR;
+using NetCorePal.Extensions.Domain;
+using NetCorePal.Extensions.Mappers;
 using NetCorePal.Extensions.Primitives;
+using PESC.Domain.AggregatesModel.OrderAggregate;
 using PESC.Domain.AggregatesModel.SCRM.UserAggregate;
+using PESC.Domain.DomainEvents;
 using PESC.Infrastructure.Repositories;
 using PESC.Web.Application.Queries;
 
@@ -38,6 +43,7 @@ public class AddUserCmdHandler(UserQuery userQuery,UserRepository userRepository
         if (user == null)
         {
             User newUser = mapper.Map<User>(request.NewUser);
+            newUser.InitNewUser(request.LoginId);
             userRepository.Add(newUser);
             return new ResponseData();
         }

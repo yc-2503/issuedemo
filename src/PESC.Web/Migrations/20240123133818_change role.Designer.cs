@@ -12,8 +12,8 @@ using PESC.Infrastructure;
 namespace PESC.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240123122346_change table name define")]
-    partial class changetablenamedefine
+    [Migration("20240123133818_change role")]
+    partial class changerole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,10 +74,14 @@ namespace PESC.Web.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 200, DateTimeKind.Local).AddTicks(3359));
 
-                    b.Property<long?>("CreatorId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
 
                     b.Property<string>("Factory")
                         .IsRequired()
@@ -88,10 +92,12 @@ namespace PESC.Web.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 200, DateTimeKind.Local).AddTicks(3652));
 
-                    b.Property<long?>("LastModifierId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("LastModifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleName")
                         .IsRequired()
@@ -115,10 +121,12 @@ namespace PESC.Web.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(183));
 
-                    b.Property<long?>("CreatorId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("text");
 
                     b.Property<string>("DepartmentId")
                         .HasColumnType("text");
@@ -138,13 +146,17 @@ namespace PESC.Web.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("LastLoginTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(729));
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(503));
 
-                    b.Property<long?>("LastModifierId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("LastModifierId")
+                        .HasColumnType("text");
 
                     b.Property<string>("LoginId")
                         .IsRequired()
@@ -156,7 +168,8 @@ namespace PESC.Web.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("text");

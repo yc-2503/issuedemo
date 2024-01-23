@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using System.Collections.ObjectModel;
 using PESC.Domain.AggregatesModel.SCRM.RoleAggregate;
+using MediatR;
+using PESC.Domain.DomainEvents;
 
 namespace PESC.Domain.AggregatesModel.SCRM.UserAggregate;
 
@@ -21,6 +23,7 @@ public class User : Entity<UserId>, IAggregateRoot
         this.LoginId = loginId;
         //TODO:加解密
         this.Password = password;
+
     }
     public string Factory { get; } = string.Empty;
     public string LoginId { get; } = string.Empty;
@@ -37,9 +40,9 @@ public class User : Entity<UserId>, IAggregateRoot
     public bool IsDeleted { get; set; }
     public DateTime LastLoginTime { get; set; }
     public DateTime CreationTime { get; set; }
-    public UserId? CreatorId { get; set; }
+    public string? CreatorId { get; set; }
     public DateTime? LastModificationTime { get; set; }
-    public UserId? LastModifierId { get; set; }
+    public string? LastModifierId { get; set; }
 
     /// <summary>
     /// 用户登录
@@ -68,5 +71,13 @@ public class User : Entity<UserId>, IAggregateRoot
     {
         FailCnt = 0;
         Password = pwd;
+    }
+    public void InitNewUser(string creator)
+    {
+        CreatorId = creator;
+        LastModificationTime = DateTime.Now;
+        CreationTime = DateTime.Now;
+        LastLoginTime = DateTime.Now;
+        AddDomainEvent(new UserCreatedDomainEvent(this));
     }
 }

@@ -1,4 +1,5 @@
 using Testcontainers.MySql;
+using Testcontainers.PostgreSql;
 using Testcontainers.RabbitMq;
 using Testcontainers.Redis;
 
@@ -12,22 +13,22 @@ public class TestContainerFixture : IDisposable
     public RabbitMqContainer RabbitMqContainer { get; } = new RabbitMqBuilder()
         .WithUsername("guest").WithPassword("guest").Build();
 
-    public MySqlContainer MySqlContainer { get; } = new MySqlBuilder()
+    public PostgreSqlContainer PostgreSqlContainer { get; } = new PostgreSqlBuilder()
         .WithUsername("root").WithPassword("123456")
         .WithEnvironment("TZ", "Asia/Shanghai")
-        .WithDatabase("mysql").Build();
+        .WithDatabase("palc").Build();
 
     public TestContainerFixture()
     {
         Task.WhenAll(RedisContainer.StartAsync(),
             RabbitMqContainer.StartAsync(),
-            MySqlContainer.StartAsync()).Wait();
+            PostgreSqlContainer.StartAsync()).Wait();
     }
 
     public void Dispose()
     {
         Task.WhenAll(RedisContainer.StopAsync(),
             RabbitMqContainer.StopAsync(),
-            MySqlContainer.StopAsync()).Wait();
+            PostgreSqlContainer.StopAsync()).Wait();
     }
 }

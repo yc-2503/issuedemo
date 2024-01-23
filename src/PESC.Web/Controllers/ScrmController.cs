@@ -20,11 +20,3 @@ public class ScrmController(IMediator mediator): ControllerBase
     }
 
 }
-public class UserLoginCmdValidator : AbstractValidator<UserLoginCmd>
-{
-    public UserLoginCmdValidator()
-    {
-        RuleFor(x => x.Factory).NotEmpty().WithMessage("工厂不能为空").WithErrorCode("code1");
-        RuleFor(x => x.Password).NotEmpty().WithMessage("密码不能为空").WithErrorCode("code1");
-    }
-}

@@ -20,6 +20,9 @@ internal class RoleEntityTypeConfiguration : IEntityTypeConfiguration<Role>
 
         builder.Property(b => b.Factory).HasMaxLength(32).IsRequired();
         builder.Property(b => b.RoleName).HasMaxLength(32).IsRequired();
+        builder.Property(b => b.CreatorId).HasMaxLength(32).IsRequired();
+        builder.Property(b => b.CreationTime).HasDefaultValue(DateTime.Now);
+        builder.Property(b => b.LastModificationTime).HasDefaultValue(DateTime.Now);
     }
 }
 

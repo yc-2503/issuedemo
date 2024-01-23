@@ -23,8 +23,8 @@ public class Role : Entity<RoleId>, IAggregateRoot
     public bool IsDeleted { get; set; }
     public Collection<User>? Users { get; set; }
     public DateTime CreationTime { get; set; }
-    public UserId? CreatorId { get; set; }
+    public string CreatorId { get; set; } = string.Empty;
     public DateTime? LastModificationTime { get; set; }
-    public UserId? LastModifierId { get; set; }
+    public string? LastModifierId { get; set; }
 }
 

@@ -17,7 +17,7 @@ namespace PESC.Web.Tests
         {
             //builder.UseSetting("ConnectionStrings:PostgreSQL", postgreSqlContainer.GetConnectionString());
             builder.UseSetting("ConnectionStrings:Redis", _containers.RedisContainer.GetConnectionString());
-            builder.UseSetting("ConnectionStrings:MySql", _containers.MySqlContainer.GetConnectionString());
+            builder.UseSetting("ConnectionStrings:Postgresql", _containers.PostgreSqlContainer.GetConnectionString());
             builder.UseSetting("RabbitMQ:Port", _containers.RabbitMqContainer.GetMappedPublicPort(5672).ToString());
             builder.UseSetting("RabbitMQ:UserName", "guest");
             builder.UseSetting("RabbitMQ:Password", "guest");
