@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="docs\*.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="docs\mermaid.md.example" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="docs\mermaid.md.example" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NetCorePal.Extensions.Domain.Abstractions" Version="1.0.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PESC.Domain.Share\PESC.Domain.Share.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp" Version="9.16.0.82469">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
