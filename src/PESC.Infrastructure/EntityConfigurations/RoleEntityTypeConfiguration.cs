@@ -9,17 +9,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PESC.Infrastructure.EntityConfigurations;
-internal class RoleEntityTypeConfiguration : IEntityTypeConfiguration<Role>
+internal class RoleEntityTypeConfiguration : IEntityTypeConfiguration<UserRole>
 {
-    public void Configure(EntityTypeBuilder<Role> builder)
+    public void Configure(EntityTypeBuilder<UserRole> builder)
     {
         builder.ToTable("SCRM_ROLE_MSCD");
         builder.HasKey(t => t.Id);
-        builder.HasIndex(t => new { t.Factory, t.RoleName }).IsUnique();
+        builder.HasIndex(t => new { t.TenantId, t.UserRoleId }).IsUnique();
         builder.Property(t => t.Id).ValueGeneratedOnAdd().UseSnowFlakeValueGenerator();
 
-        builder.Property(b => b.Factory).HasMaxLength(32).IsRequired();
-        builder.Property(b => b.RoleName).HasMaxLength(32).IsRequired();
+        builder.Property(b => b.TenantId).HasMaxLength(32).IsRequired();
+        builder.Property(b => b.UserRoleId).HasMaxLength(32).IsRequired();
         builder.Property(b => b.CreatorId).HasMaxLength(32).IsRequired();
         builder.Property(b => b.CreationTime).HasDefaultValue(DateTime.Now);
         builder.Property(b => b.LastModificationTime).HasDefaultValue(DateTime.Now);

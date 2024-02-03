@@ -1,20 +1,92 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using PESC.Domain.Share;
 using PESC.Web.Application.Commands;
+using PESC.Web.Application.Queries;
+using PESC.Web.Application.ViewModels;
+using PESC.Web.Extensions;
 
 namespace PESC.Web.Controllers;
 [Route("[controller]/[action]")]
 [ApiController]
-public class ScrmController(IMediator mediator): ControllerBase
+public class ScrmController(IMediator mediator, IMapper mapper, IUserQuery userQuery) : ControllerBase
 {
+
+    /// <summary>
+    /// 使用用户名密码登录
+    /// </summary>
+    /// <param name="cmd"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<ResponseData> LoginByPwd(UserLoginCmd cmd)
     {
-       return await mediator.Send(cmd);
+        //var protector = provider.CreateProtector("Contoso.MyClass.v1");
+        //string encrypt = protector.Protect(cmd.Password!);
+        //await Console.Out.WriteLineAsync(encrypt);
+        //string unencrypt = protector.Unprotect(encrypt);
+        //await Console.Out.WriteLineAsync(   unencrypt);
+        return await mediator.Send(cmd);
     }
+    /// <summary>
+    /// 新增用户
+    /// </summary>
+    /// <param name="cmd"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<ResponseData> AddUser(AddUserCmd cmd)
+    {
+        return await mediator.Send(cmd);
+    }
+    /// <summary>
+    /// 获取用户详细信息
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<ResponseData<UserDto>> GetUser(UserId userId)
+    {
+        var user = await userQuery.FindUserAsync(userId);
+        UserDto userDto = mapper.Map<UserDto>(user);
+        return new ResponseData<UserDto>(userDto);
+    }
+    /// <summary>
+    /// 根据条件查询用户
+    /// </summary>
+    /// <param name="queryCondition"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ResponseData<PageResponseData<UserDto>>> FindUsers(UserQueryCondition queryCondition)
+    {
+        int cnt = await userQuery.FindUsersCountAsync(queryCondition);
+        var users = await userQuery.FindUsersAsync(queryCondition);
+        IEnumerable<UserDto> usersDto = mapper.Map<IEnumerable<UserDto>>(users);
+        PageResponseData<UserDto> prsp = new PageResponseData<UserDto>();
+        prsp.PageSize = queryCondition.PageSize;
+        prsp.PageCount = cnt;
+        prsp.PageIndex = queryCondition.PageIndex;
+        prsp.Data = usersDto;
+        return new ResponseData<PageResponseData<UserDto>>(prsp);
+    }
+    /// <summary>
+    /// 新增角色
+    /// </summary>
+    /// <param name="cmd"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ResponseData> AddRole(AddRoleCmd cmd)
+    {
+        return await mediator.Send(cmd);
+    }
+    /// <summary>
+    /// 给用户分配角色
+    /// </summary>
+    /// <param name="cmd"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ResponseData> AssignRole(AssignRoleCmd cmd)
     {
         return await mediator.Send(cmd);
     }

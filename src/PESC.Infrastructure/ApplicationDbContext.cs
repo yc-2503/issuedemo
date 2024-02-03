@@ -47,6 +47,6 @@ namespace PESC.Infrastructure
         /// <summary>
         /// 权限组
         /// </summary>
-        public DbSet<Role> Roles => Set<Role>();
+        public DbSet<UserRole> Roles => Set<UserRole>();
     }
 }

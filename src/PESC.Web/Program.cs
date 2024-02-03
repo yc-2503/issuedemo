@@ -70,7 +70,6 @@ try
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(c => c.AddEntityIdSchemaMap()); //强类型id swagger schema 映射
-
     #endregion
 
     #region 公共服务
@@ -100,9 +99,10 @@ try
     #endregion
 
     #region Query
-
+    //所有的Repositorie 不需要依赖注入，是因为117行代码，检查了所有继承了RepositoryBase的Class
     builder.Services.AddScoped<OrderQuery>();
-    builder.Services.AddScoped<UserQuery>();
+    builder.Services.AddScoped<IUserQuery,UserQuery>();
+    builder.Services.AddScoped<RoleQuery>();
 
 
     #endregion

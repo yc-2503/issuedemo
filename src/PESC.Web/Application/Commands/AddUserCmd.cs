@@ -12,7 +12,7 @@ public class AddUserCmdValidator : AbstractValidator<AddUserCmd>
     public AddUserCmdValidator()
     {
         RuleFor(x => x.NewUser.LoginId).NotEmpty().MaximumLength(32).WithErrorCode("LoginId error code");
-        RuleFor(x => x.NewUser.Factory).NotEmpty().MaximumLength(32).WithErrorCode("Factory error code");
+        RuleFor(x => x.NewUser.TenantId).NotEmpty().MaximumLength(32).WithErrorCode("TenantId error code");
         RuleFor(x => x.NewUser.Password).NotEmpty().MaximumLength(256).WithErrorCode("Password error code");
 
     }

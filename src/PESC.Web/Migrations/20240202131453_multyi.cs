@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PESC.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class changerole : Migration
+    public partial class multyi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,70 +16,52 @@ namespace PESC.Web.Migrations
                 table: "SCRM_USER_MSCD",
                 type: "timestamp without time zone",
                 nullable: true,
-                defaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(503),
+                defaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 683, DateTimeKind.Local).AddTicks(2220),
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
                 oldNullable: true,
-                oldDefaultValue: new DateTime(2024, 1, 23, 21, 34, 30, 562, DateTimeKind.Local).AddTicks(2567));
+                oldDefaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 523, DateTimeKind.Local).AddTicks(1638));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "LastLoginTime",
                 table: "SCRM_USER_MSCD",
                 type: "timestamp without time zone",
                 nullable: false,
-                defaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(729),
+                defaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 683, DateTimeKind.Local).AddTicks(2471),
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
-                oldDefaultValue: new DateTime(2024, 1, 23, 21, 34, 30, 562, DateTimeKind.Local).AddTicks(2821));
+                oldDefaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 523, DateTimeKind.Local).AddTicks(1898));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreationTime",
                 table: "SCRM_USER_MSCD",
                 type: "timestamp without time zone",
                 nullable: false,
-                defaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(183),
+                defaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 683, DateTimeKind.Local).AddTicks(1844),
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
-                oldDefaultValue: new DateTime(2024, 1, 23, 21, 34, 30, 562, DateTimeKind.Local).AddTicks(2252));
-
-            migrationBuilder.AlterColumn<string>(
-                name: "LastModifierId",
-                table: "SCRM_ROLE_MSCD",
-                type: "text",
-                nullable: true,
-                oldClrType: typeof(long),
-                oldType: "bigint",
-                oldNullable: true);
+                oldDefaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 523, DateTimeKind.Local).AddTicks(1283));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "LastModificationTime",
                 table: "SCRM_ROLE_MSCD",
                 type: "timestamp without time zone",
                 nullable: true,
-                defaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 200, DateTimeKind.Local).AddTicks(3652),
+                defaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 684, DateTimeKind.Local).AddTicks(4964),
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "CreatorId",
-                table: "SCRM_ROLE_MSCD",
-                type: "character varying(32)",
-                maxLength: 32,
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(long),
-                oldType: "bigint",
-                oldNullable: true);
+                oldNullable: true,
+                oldDefaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 524, DateTimeKind.Local).AddTicks(5138));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreationTime",
                 table: "SCRM_ROLE_MSCD",
                 type: "timestamp without time zone",
                 nullable: false,
-                defaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 200, DateTimeKind.Local).AddTicks(3359),
+                defaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 684, DateTimeKind.Local).AddTicks(4654),
                 oldClrType: typeof(DateTime),
-                oldType: "timestamp without time zone");
+                oldType: "timestamp without time zone",
+                oldDefaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 524, DateTimeKind.Local).AddTicks(4827));
         }
 
         /// <inheritdoc />
@@ -90,68 +72,52 @@ namespace PESC.Web.Migrations
                 table: "SCRM_USER_MSCD",
                 type: "timestamp without time zone",
                 nullable: true,
-                defaultValue: new DateTime(2024, 1, 23, 21, 34, 30, 562, DateTimeKind.Local).AddTicks(2567),
+                defaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 523, DateTimeKind.Local).AddTicks(1638),
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
                 oldNullable: true,
-                oldDefaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(503));
+                oldDefaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 683, DateTimeKind.Local).AddTicks(2220));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "LastLoginTime",
                 table: "SCRM_USER_MSCD",
                 type: "timestamp without time zone",
                 nullable: false,
-                defaultValue: new DateTime(2024, 1, 23, 21, 34, 30, 562, DateTimeKind.Local).AddTicks(2821),
+                defaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 523, DateTimeKind.Local).AddTicks(1898),
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
-                oldDefaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(729));
+                oldDefaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 683, DateTimeKind.Local).AddTicks(2471));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreationTime",
                 table: "SCRM_USER_MSCD",
                 type: "timestamp without time zone",
                 nullable: false,
-                defaultValue: new DateTime(2024, 1, 23, 21, 34, 30, 562, DateTimeKind.Local).AddTicks(2252),
+                defaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 523, DateTimeKind.Local).AddTicks(1283),
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
-                oldDefaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(183));
-
-            migrationBuilder.AlterColumn<long>(
-                name: "LastModifierId",
-                table: "SCRM_ROLE_MSCD",
-                type: "bigint",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "text",
-                oldNullable: true);
+                oldDefaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 683, DateTimeKind.Local).AddTicks(1844));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "LastModificationTime",
                 table: "SCRM_ROLE_MSCD",
                 type: "timestamp without time zone",
                 nullable: true,
+                defaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 524, DateTimeKind.Local).AddTicks(5138),
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
                 oldNullable: true,
-                oldDefaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 200, DateTimeKind.Local).AddTicks(3652));
-
-            migrationBuilder.AlterColumn<long>(
-                name: "CreatorId",
-                table: "SCRM_ROLE_MSCD",
-                type: "bigint",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "character varying(32)",
-                oldMaxLength: 32);
+                oldDefaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 684, DateTimeKind.Local).AddTicks(4964));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreationTime",
                 table: "SCRM_ROLE_MSCD",
                 type: "timestamp without time zone",
                 nullable: false,
+                defaultValue: new DateTime(2024, 2, 2, 20, 57, 59, 524, DateTimeKind.Local).AddTicks(4827),
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp without time zone",
-                oldDefaultValue: new DateTime(2024, 1, 23, 21, 38, 18, 200, DateTimeKind.Local).AddTicks(3359));
+                oldDefaultValue: new DateTime(2024, 2, 2, 21, 14, 51, 684, DateTimeKind.Local).AddTicks(4654));
         }
     }
 }

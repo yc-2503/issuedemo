@@ -1,5 +1,6 @@
 ﻿using NetCorePal.Extensions.Domain;
 using PESC.Domain.AggregatesModel.SCRM.UserAggregate;
+using PESC.Domain.Extensions;
 using PESC.Domain.Share;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace PESC.Domain.AggregatesModel.SCRM.RoleAggregate;
 public partial record RoleId : IInt64StronglyTypedId;
-public class Role : Entity<RoleId>, IAggregateRoot
+public class UserRole : AggregateRoot<RoleId>,IMultiTenant
 {
-    protected Role() { }
-    public Role(string factory,string roleName)
+    protected UserRole() { }
+    public UserRole(string tenantId, string userRoleId)
     {
-        this.Factory = factory;
-        this.RoleName = roleName;
+        this.TenantId = tenantId;
+        this.UserRoleId = userRoleId;
     }
-    public string Factory { get; private set; } = string.Empty;
-    public string RoleName { get; private set; } = string.Empty;
+    public string TenantId { get; set; } = string.Empty;
+    public string UserRoleId { get; private set; } = string.Empty;
     public bool IsDeleted { get; set; }
     public Collection<User>? Users { get; set; }
     public DateTime CreationTime { get; set; }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PESC.Domain.AggregatesModel.SCRM.RoleAggregate;
 using PESC.Domain.AggregatesModel.SCRM.UserAggregate;
 using PESC.Web.Application.ViewModels;
 
@@ -10,5 +11,6 @@ public class ScrmAutoMapperProfile:Profile
     {
         CreateMap<User, UserDto>().ForMember(dest=>dest.Password,opt=>opt.Ignore());
         CreateMap<UserDto, User>();
+        CreateMap<UserRole,UserRoleDto>().ReverseMap();
     }
 }

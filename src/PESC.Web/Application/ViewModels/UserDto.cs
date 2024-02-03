@@ -4,7 +4,7 @@ namespace PESC.Web.Application.ViewModels;
 
 public class UserDto
 {
-    public string Factory { get; set; } = string.Empty;
+    public string TenantId { get; set; } = string.Empty;
     public string LoginId { get; set; } = string.Empty;
     public string? Desc { get; set; }
     public string? Password { get; set; }

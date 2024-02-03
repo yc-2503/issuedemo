@@ -1,35 +1,44 @@
-﻿using NetCorePal.Extensions.Domain;
-using PESC.Domain.Share;
-using PESC.Domain.AggregatesModel.OrderAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using PESC.Domain.Share;
 using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography.X509Certificates;
 using System.Collections.ObjectModel;
 using PESC.Domain.AggregatesModel.SCRM.RoleAggregate;
 using MediatR;
 using PESC.Domain.DomainEvents;
+using System.Security.Cryptography;
+using PESC.Domain.Extensions;
 
 namespace PESC.Domain.AggregatesModel.SCRM.UserAggregate;
 
-public class User : Entity<UserId>, IAggregateRoot
+public class User : AggregateRoot<UserId>, IMultiTenant
 {
     protected User() { }
-    public User(string factory, string loginId, string password)
+    //automapper 也会用这个构造函数生成实例
+    public User(string tenantId, string loginId, string password)
     {
-        this.Factory = factory;
+        this.TenantId = tenantId;
         this.LoginId = loginId;
-        //TODO:加解密
-        this.Password = password;
-
+        this.Password = ToMD5(password);
     }
-    public string Factory { get; } = string.Empty;
+    /// <summary>
+    /// MD5加密字符串（32位大写）
+    /// </summary>
+    /// <param name="source">源字符串</param>
+    /// <returns>加密后的字符串</returns>
+    string ToMD5(string source)
+    {
+        using (var md5 = MD5.Create())
+        {
+            var result = md5.ComputeHash(Encoding.UTF8.GetBytes(source));
+            var strResult = BitConverter.ToString(result);
+            return  strResult.Replace("-", "");
+        }
+    }
+    public string TenantId { get; set; } = string.Empty;
     public string LoginId { get; } = string.Empty;
     public string Password { get; private set; } = string.Empty;
+    public string? Name { get; set; }
     public string? Desc { get; set; }
-    public Collection<Role>? Roles { get; set; }
+    public Collection<UserRole>? Roles { get; set; }
     /// <summary>
     /// 登录失败次数，登录成功后会清零
     /// </summary>
@@ -40,7 +49,7 @@ public class User : Entity<UserId>, IAggregateRoot
     public bool IsDeleted { get; set; }
     public DateTime LastLoginTime { get; set; }
     public DateTime CreationTime { get; set; }
-    public string? CreatorId { get; set; }
+    public UserId? CreatorId { get; set; }
     public DateTime? LastModificationTime { get; set; }
     public string? LastModifierId { get; set; }
 
@@ -51,7 +60,8 @@ public class User : Entity<UserId>, IAggregateRoot
     /// <returns></returns>
     public bool LoginByPwd(string pwd)
     {
-        if (Password == pwd)
+        string inputPwd = ToMD5(pwd);
+        if (Password == inputPwd)
         {
             FailCnt = 0;
             LastLoginTime = DateTime.Now;
@@ -70,9 +80,9 @@ public class User : Entity<UserId>, IAggregateRoot
     public void ResetPwd(string pwd)
     {
         FailCnt = 0;
-        Password = pwd;
+        Password = ToMD5(pwd);
     }
-    public void InitNewUser(string creator)
+    public void InitNewUser(UserId creator)
     {
         CreatorId = creator;
         LastModificationTime = DateTime.Now;
@@ -80,4 +90,5 @@ public class User : Entity<UserId>, IAggregateRoot
         LastLoginTime = DateTime.Now;
         AddDomainEvent(new UserCreatedDomainEvent(this));
     }
+
 }

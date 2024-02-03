@@ -62,7 +62,7 @@ namespace PESC.Web.Migrations
                     b.ToTable("order", (string)null);
                 });
 
-            modelBuilder.Entity("PESC.Domain.AggregatesModel.SCRM.RoleAggregate.Role", b =>
+            modelBuilder.Entity("PESC.Domain.AggregatesModel.SCRM.RoleAggregate.UserRole", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,14 +73,9 @@ namespace PESC.Web.Migrations
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 200, DateTimeKind.Local).AddTicks(3359));
+                        .HasDefaultValue(new DateTime(2024, 2, 2, 21, 14, 51, 684, DateTimeKind.Local).AddTicks(4654));
 
                     b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)");
-
-                    b.Property<string>("Factory")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
@@ -91,19 +86,24 @@ namespace PESC.Web.Migrations
                     b.Property<DateTime?>("LastModificationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 200, DateTimeKind.Local).AddTicks(3652));
+                        .HasDefaultValue(new DateTime(2024, 2, 2, 21, 14, 51, 684, DateTimeKind.Local).AddTicks(4964));
 
                     b.Property<string>("LastModifierId")
                         .HasColumnType("text");
 
-                    b.Property<string>("RoleName")
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("UserRoleId")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Factory", "RoleName")
+                    b.HasIndex("TenantId", "UserRoleId")
                         .IsUnique();
 
                     b.ToTable("SCRM_ROLE_MSCD", (string)null);
@@ -120,21 +120,17 @@ namespace PESC.Web.Migrations
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(183));
+                        .HasDefaultValue(new DateTime(2024, 2, 2, 21, 14, 51, 683, DateTimeKind.Local).AddTicks(1844));
 
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("text");
+                    b.Property<long?>("CreatorId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("DepartmentId")
                         .HasColumnType("text");
 
                     b.Property<string>("Desc")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Factory")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<int>("FailCnt")
                         .HasColumnType("integer");
@@ -145,12 +141,12 @@ namespace PESC.Web.Migrations
                     b.Property<DateTime>("LastLoginTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(729));
+                        .HasDefaultValue(new DateTime(2024, 2, 2, 21, 14, 51, 683, DateTimeKind.Local).AddTicks(2471));
 
                     b.Property<DateTime?>("LastModificationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2024, 1, 23, 21, 38, 18, 199, DateTimeKind.Local).AddTicks(503));
+                        .HasDefaultValue(new DateTime(2024, 2, 2, 21, 14, 51, 683, DateTimeKind.Local).AddTicks(2220));
 
                     b.Property<string>("LastModifierId")
                         .HasColumnType("text");
@@ -163,6 +159,10 @@ namespace PESC.Web.Migrations
                     b.Property<string>("Mail")
                         .HasColumnType("text");
 
+                    b.Property<string>("Name")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -171,9 +171,14 @@ namespace PESC.Web.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Factory", "LoginId")
+                    b.HasIndex("TenantId", "LoginId")
                         .IsUnique();
 
                     b.ToTable("SCRM_USER_MSCD", (string)null);
@@ -196,7 +201,7 @@ namespace PESC.Web.Migrations
 
             modelBuilder.Entity("SCRM_USER_ROLE", b =>
                 {
-                    b.HasOne("PESC.Domain.AggregatesModel.SCRM.RoleAggregate.Role", null)
+                    b.HasOne("PESC.Domain.AggregatesModel.SCRM.RoleAggregate.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
