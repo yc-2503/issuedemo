@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using PESC.Web.Application.ViewModels;
 
-namespace PESC.Web.Application.Commands;
+namespace PESC.Web.Application.Commands.SCRM;
 
-public class AddRoleCmd: BaseActionCommand
+public class AddRoleCmd : BaseActionCommand
 {
     public required UserRoleDto NewRole { get; set; }
 }

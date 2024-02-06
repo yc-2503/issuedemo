@@ -4,11 +4,11 @@ using PESC.Domain.AggregatesModel.SCRM.RoleAggregate;
 using PESC.Domain.AggregatesModel.SCRM.UserAggregate;
 using PESC.Domain.Share;
 using PESC.Infrastructure.Repositories;
-using PESC.Web.Application.Commands;
+using PESC.Web.QueryConditions;
 
 namespace PESC.Web.Application.Queries;
 
-public class UserQuery(ApplicationDbContext applicationDbContext): IUserQuery
+public class UserQuery(ApplicationDbContext applicationDbContext):PageQuery<User,UserQueryCondition>, IUserQuery
 {
     /// <summary>
     /// 查询用户
@@ -18,7 +18,7 @@ public class UserQuery(ApplicationDbContext applicationDbContext): IUserQuery
     /// <param name="onlyAvaliable"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<User?> FindUserAsync(string tenantId, string loginId, bool onlyAvaliable = true, CancellationToken cancellationToken = default)
+    public async Task<User?> FindSingleAsync(string tenantId, string loginId, bool onlyAvaliable = true, CancellationToken cancellationToken = default)
     {
         if(onlyAvaliable)
         {
@@ -32,13 +32,13 @@ public class UserQuery(ApplicationDbContext applicationDbContext): IUserQuery
         }
 
     }
-    public async Task<User?> FindUserAsync(UserId userId, CancellationToken cancellationToken = default)
+    public async Task<User?> GetUserInfoAsync(UserId userId, CancellationToken cancellationToken = default)
     {
         return await applicationDbContext.Users.AsNoTracking().Include(c=>c.Roles).FirstOrDefaultAsync(p => p.Id == userId, cancellationToken);
     }
-    public async Task<int> FindUsersCountAsync(UserQueryCondition queryCondition)
+    public override async Task<int> FindManyCountAsync(UserQueryCondition queryCondition)
     {
-        var querys = applicationDbContext.Users.AsNoTracking().Skip(queryCondition.PageSize * (queryCondition.PageIndex - 1));
+        var querys = applicationDbContext.Users.AsNoTracking();
         if (queryCondition.TenantId != null)
         {
             querys = querys.Where(x => x.TenantId == queryCondition.TenantId);
@@ -54,9 +54,9 @@ public class UserQuery(ApplicationDbContext applicationDbContext): IUserQuery
         }
         return await querys.CountAsync();
     }
-    public async Task<IEnumerable<User>> FindUsersAsync(UserQueryCondition queryCondition)
+    public override async Task<IEnumerable<User>> FindManyAsync(UserQueryCondition queryCondition)
     {
-        var querys = applicationDbContext.Users.AsNoTracking().Skip(queryCondition.PageSize*(queryCondition.PageIndex-1));
+        var querys = applicationDbContext.Users.AsNoTracking();
         if(queryCondition.TenantId != null)
         {
             querys = querys.Where(x => x.TenantId == queryCondition.TenantId);
@@ -69,6 +69,6 @@ public class UserQuery(ApplicationDbContext applicationDbContext): IUserQuery
         {
             querys = querys.Where(x => x.DepartmentId == queryCondition.Department);
         }
-        return await querys.ToListAsync();
+        return await querys.Skip(queryCondition.PageSize * (queryCondition.PageIndex - 1)).ToListAsync();
     }
 }

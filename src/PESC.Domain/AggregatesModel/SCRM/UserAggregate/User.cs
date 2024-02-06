@@ -12,12 +12,17 @@ namespace PESC.Domain.AggregatesModel.SCRM.UserAggregate;
 public class User : AggregateRoot<UserId>, IMultiTenant
 {
     protected User() { }
+
     //automapper 也会用这个构造函数生成实例
-    public User(string tenantId, string loginId, string password)
+    public User(string tenantId, string loginId, string? password)
     {
         this.TenantId = tenantId;
         this.LoginId = loginId;
-        this.Password = ToMD5(password);
+        if (password != null)
+        {
+            this.Password = ToMD5(password);
+
+        }
     }
     /// <summary>
     /// MD5加密字符串（32位大写）
@@ -90,5 +95,13 @@ public class User : AggregateRoot<UserId>, IMultiTenant
         LastLoginTime = DateTime.Now;
         AddDomainEvent(new UserCreatedDomainEvent(this));
     }
-
+    public void UpdateUser(User user)
+    {
+        Name = user.Name;
+        Desc = user.Desc;
+        DepartmentId = user.DepartmentId;
+        Mail = user.Mail;
+        Phone = user.Phone;
+        LastModificationTime = DateTime.Now;
+    }
 }

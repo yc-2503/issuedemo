@@ -2,7 +2,7 @@
 using PESC.Domain.AggregatesModel.SCRM.RoleAggregate;
 using PESC.Domain.Share;
 
-namespace PESC.Web.Application.Commands;
+namespace PESC.Web.Application.Commands.SCRM;
 
 public class AssignRoleCmd : BaseActionCommand
 {

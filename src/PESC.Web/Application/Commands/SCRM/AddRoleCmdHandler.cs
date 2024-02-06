@@ -8,7 +8,7 @@ using PESC.Web.Application.Queries;
 using PESC.Web.Global;
 using System.Collections.ObjectModel;
 
-namespace PESC.Web.Application.Commands;
+namespace PESC.Web.Application.Commands.SCRM;
 
 public class AddRoleCmdHandler(RoleQuery roleQuery, IRoleRepository roleRepository, IMapper mapper) : ICommandHandler<AddRoleCmd, ResponseData>
 {
@@ -16,13 +16,14 @@ public class AddRoleCmdHandler(RoleQuery roleQuery, IRoleRepository roleReposito
     {
         //检查角色是否存在
         var role = await roleQuery.FindRoleAsync(request.TenantId, request.NewRole.UserRoleId, false, cancellationToken);
-        if(role ==  null)
+        if (role == null)
         {
             //新增角色
             UserRole newRole = mapper.Map<UserRole>(request.NewRole);
             roleRepository.Add(newRole);
             return new ResponseData();
-        }else
+        }
+        else
         {
             return new ResponseData(false, "角色已存在", 10002);
         }
@@ -30,13 +31,13 @@ public class AddRoleCmdHandler(RoleQuery roleQuery, IRoleRepository roleReposito
     }
 }
 //为用户分配角色处理程序
-public class AssignRoleCmdHandler(IRoleRepository roleRepository, IUserQuery userQuery) : ICommandHandler<AssignRoleCmd, ResponseData>
+public class AssignRoleCmdHandler(IRoleRepository roleRepository, IUserRepository userRepository) : ICommandHandler<AssignRoleCmd, ResponseData>
 {
 
     public async Task<ResponseData> Handle(AssignRoleCmd request, CancellationToken cancellationToken)
     {
-        
-        var user = await userQuery.FindUserAsync(request.UserId);
+
+        var user = await userRepository.GetAsync(request.UserId);
         if (user == null || user.IsDeleted)
         {
             return new ResponseData(false, "用户不存在", RspErrCode.UserDoNotExist);

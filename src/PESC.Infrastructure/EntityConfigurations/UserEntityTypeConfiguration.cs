@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using PESC.Domain.AggregatesModel.SCRM.UserAggregate;
+using PESC.Domain.AggregatesModel.SCRM.RoleAggregate;
 
 namespace PESC.Infrastructure.EntityConfigurations;
 internal class UserEntityTypeConfiguration: IEntityTypeConfiguration<User>

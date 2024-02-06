@@ -4,7 +4,7 @@ using PESC.Domain.AggregatesModel.SCRM.RoleAggregate;
 using PESC.Domain.AggregatesModel.SCRM.UserAggregate;
 using PESC.Domain.Share;
 using PESC.Infrastructure.Repositories;
-using PESC.Web.Application.Commands;
+using PESC.Web.Application.Commands.SCRM;
 using PESC.Web.Application.Queries;
 using PESC.Web.Global;
 using System;
@@ -21,11 +21,11 @@ namespace PESC.Web.Tests.SCRM
         public async void AssignRoleCmdHandler_Normal_Test()
         {
             Mock<IRoleRepository> mockRoleRp = new Mock<IRoleRepository>();
-            Mock<IUserQuery> mockUserQ = new Mock<IUserQuery>();
+            Mock<IUserRepository> mockUserQ = new Mock<IUserRepository>();
             UserId userId = new UserId(1);
             RoleId roleId = new RoleId(1);
             User qUser = new Domain.AggregatesModel.SCRM.UserAggregate.User("SICC-A-GR", "ADMIN", "A");
-            mockUserQ.Setup(p => p.FindUserAsync(userId,default)).Returns(Task.FromResult(qUser)!);
+            mockUserQ.Setup(p => p.GetAsync(userId,default)).Returns(Task.FromResult(qUser)!);
             UserRole userRole = new UserRole("SICC-A-GR","ADMIN");
             mockRoleRp.Setup(P => P.GetAsync(roleId, default)).Returns(Task.FromResult(userRole)!);
             AssignRoleCmdHandler assignRoleCmdHandler = new AssignRoleCmdHandler(mockRoleRp.Object,mockUserQ.Object);
@@ -41,12 +41,12 @@ namespace PESC.Web.Tests.SCRM
         public async void AssignRoleCmdHandler_UserDeleted_Test()
         {
             Mock<IRoleRepository> mockRoleRp = new Mock<IRoleRepository>();
-            Mock<IUserQuery> mockUserQ = new Mock<IUserQuery>();
+            Mock<IUserRepository> mockUserQ = new Mock<IUserRepository>();
             UserId userId = new UserId(1);
             RoleId roleId = new RoleId(1);
             User qUser = new Domain.AggregatesModel.SCRM.UserAggregate.User("SICC-A-GR", "ADMIN", "A");
             qUser.IsDeleted = true;
-            mockUserQ.Setup(p => p.FindUserAsync(userId, default)).Returns(Task.FromResult(qUser)!);
+            mockUserQ.Setup(p => p.GetAsync(userId, default)).Returns(Task.FromResult(qUser)!);
             UserRole userRole = new UserRole("SICC-A-GR", "ADMIN");
             mockRoleRp.Setup(P => P.GetAsync(roleId, default)).Returns(Task.FromResult(userRole)!);
             AssignRoleCmdHandler assignRoleCmdHandler = new AssignRoleCmdHandler(mockRoleRp.Object, mockUserQ.Object);

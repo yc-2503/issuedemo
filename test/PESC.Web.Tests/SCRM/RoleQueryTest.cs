@@ -30,23 +30,21 @@ public class RoleQueryTest : IClassFixture<MyWebApplicationFactory>
     [Fact]
     public async Task RoleFind_TestAsync()
     {
-        {
-            using (var scope = _factory.Services.CreateScope())
-            {
-                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                db.Database.Migrate();
-                RoleQuery roleQuery = new RoleQuery(db);
-                var role = await roleQuery.FindRoleAsync("SICC-A-GR", "adminr");
-                Assert.Null(role);
-                UserRole userRole = new UserRole("SICC-A-GR", "adminr");
-                db.Roles.Add(userRole);
-                db.SaveChanges();
-                role = await roleQuery.FindRoleAsync("SICC-A-GR", "adminr");
-                Assert.NotNull(role);
-                Assert.Equal("adminr", role.UserRoleId);
-                Assert.Equal("SICC-A-GR", role.TenantId);
-            }
 
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            db.Database.Migrate();
+            RoleQuery roleQuery = new RoleQuery(db);
+            var role = await roleQuery.FindRoleAsync("SICC-A-GR", "adminr");
+            Assert.Null(role);
+            UserRole userRole = new UserRole("SICC-A-GR", "adminr");
+            db.Roles.Add(userRole);
+            db.SaveChanges();
+            role = await roleQuery.FindRoleAsync("SICC-A-GR", "adminr");
+            Assert.NotNull(role);
+            Assert.Equal("adminr", role.UserRoleId);
+            Assert.Equal("SICC-A-GR", role.TenantId);
         }
     }
 }

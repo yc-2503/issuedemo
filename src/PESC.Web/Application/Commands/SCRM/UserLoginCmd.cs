@@ -4,7 +4,7 @@ using NetCorePal.Extensions.Primitives;
 using PESC.Domain.AggregatesModel.SCRM.UserAggregate;
 using PESC.Web.Application.ViewModels;
 
-namespace PESC.Web.Application.Commands;
+namespace PESC.Web.Application.Commands.SCRM;
 
 public class UserLoginCmd : ICommand<ResponseData>
 {

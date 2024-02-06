@@ -3,11 +3,13 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using PESC.Domain.AggregatesModel.SCRM.UserAggregate;
 using PESC.Domain.Share;
-using PESC.Web.Application.Commands;
+using PESC.Web.Application.Commands.SCRM;
 using PESC.Web.Application.Queries;
 using PESC.Web.Application.ViewModels;
 using PESC.Web.Extensions;
+using PESC.Web.QueryConditions;
 
 namespace PESC.Web.Controllers;
 [Route("[controller]/[action]")]
@@ -36,7 +38,7 @@ public class ScrmController(IMediator mediator, IMapper mapper, IUserQuery userQ
     /// <param name="cmd"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ResponseData> AddUser(AddUserCmd cmd)
+    public async Task<ResponseData<UserId>> AddUser(AddUserCmd cmd)
     {
         return await mediator.Send(cmd);
     }
@@ -48,9 +50,14 @@ public class ScrmController(IMediator mediator, IMapper mapper, IUserQuery userQ
     [HttpGet]
     public async Task<ResponseData<UserDto>> GetUser(UserId userId)
     {
-        var user = await userQuery.FindUserAsync(userId);
+        var user = await userQuery.GetUserInfoAsync(userId);
         UserDto userDto = mapper.Map<UserDto>(user);
         return new ResponseData<UserDto>(userDto);
+    }
+    [HttpPost]
+    public async Task<ResponseData> UpdateUser(UpdateUserCmd cmd)
+    {
+        return await mediator.Send(cmd);
     }
     /// <summary>
     /// 根据条件查询用户
@@ -60,14 +67,14 @@ public class ScrmController(IMediator mediator, IMapper mapper, IUserQuery userQ
     [HttpPost]
     public async Task<ResponseData<PageResponseData<UserDto>>> FindUsers(UserQueryCondition queryCondition)
     {
-        int cnt = await userQuery.FindUsersCountAsync(queryCondition);
-        var users = await userQuery.FindUsersAsync(queryCondition);
-        IEnumerable<UserDto> usersDto = mapper.Map<IEnumerable<UserDto>>(users);
-        PageResponseData<UserDto> prsp = new PageResponseData<UserDto>();
-        prsp.PageSize = queryCondition.PageSize;
-        prsp.PageCount = cnt;
-        prsp.PageIndex = queryCondition.PageIndex;
-        prsp.Data = usersDto;
+        var rsp = await userQuery.PageFindMany(queryCondition);
+        PageResponseData<UserDto> prsp =new PageResponseData<UserDto>() {
+            Data=mapper.Map<IEnumerable<UserDto>>(rsp.Data),
+            PageCount= rsp.PageCount ,
+            PageIndex= queryCondition.PageIndex,
+            PageSize= queryCondition.PageSize
+        };
+
         return new ResponseData<PageResponseData<UserDto>>(prsp);
     }
     /// <summary>
@@ -86,7 +93,7 @@ public class ScrmController(IMediator mediator, IMapper mapper, IUserQuery userQ
     /// <param name="cmd"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ResponseData> AssignRole(AssignRoleCmd cmd)
+    public async Task<ResponseData> AssignRoleToUser(AssignRoleCmd cmd)
     {
         return await mediator.Send(cmd);
     }
