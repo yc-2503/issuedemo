@@ -14,7 +14,7 @@ namespace PESC.Web.Tests.SCRM;
 public class PageQueryTest
 {
     [Fact]
-    public async void PageFindMany_SinglePage_ReturnSInglePage()
+    public async Task PageFindMany_SinglePage_ReturnSInglePage()
     {
         Mock<IUserQuery> mockPageQuery = new Mock<IUserQuery>();
         List<User> stubUsers = new List<User>() 
@@ -36,7 +36,7 @@ public class PageQueryTest
         Assert.Contains(stubUsers[0], rsp.Data);
     }
     [Fact]
-    public async void PageFindMany_TwoPage_ReturnTwoPage()
+    public async Task PageFindMany_TwoPage_ReturnTwoPage()
     {
         Mock<IUserQuery> mockPageQuery = new Mock<IUserQuery>();
         List<User> stubUsers = new List<User>()

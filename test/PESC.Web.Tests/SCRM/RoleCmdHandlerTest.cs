@@ -18,7 +18,7 @@ namespace PESC.Web.Tests.SCRM
     public class RoleCmdHandlerTest
     {
         [Fact]
-        public async void AssignRoleCmdHandler_Normal_Test()
+        public async Task AssignRoleCmdHandler_Normal_Test()
         {
             Mock<IRoleRepository> mockRoleRp = new Mock<IRoleRepository>();
             Mock<IUserRepository> mockUserQ = new Mock<IUserRepository>();
@@ -38,7 +38,7 @@ namespace PESC.Web.Tests.SCRM
 
         }
         [Fact]
-        public async void AssignRoleCmdHandler_UserDeleted_Test()
+        public async Task AssignRoleCmdHandler_UserDeleted_Test()
         {
             Mock<IRoleRepository> mockRoleRp = new Mock<IRoleRepository>();
             Mock<IUserRepository> mockUserQ = new Mock<IUserRepository>();

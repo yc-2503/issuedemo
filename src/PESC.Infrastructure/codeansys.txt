@@ -1,0 +1,4 @@
+ dotnet sonarscanner begin /k:"PESC"    /d:sonar.token="sqp_6044b2abe1368343aed3672931b8353df0963c21"    /d:sonar.cs.vscoveragexml.reportsPaths="coverage.xml" /d:sonar.host.url="http://172.16.11.39:9000"
+dotnet build --no-incremental
+ dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+dotnet sonarscanner end /d:sonar.token="sqp_aac79d2ccc5234e82577d261880f8e0eb4b7c067"

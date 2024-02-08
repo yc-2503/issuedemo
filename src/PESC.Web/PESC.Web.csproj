@@ -9,8 +9,7 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="DotNetCore.CAP.Dashboard" Version="8.0.1" />
     <PackageReference Include="DotNetCore.CAP.PostgreSql" Version="8.0.1" />
     <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="8.0.1" />
@@ -28,15 +27,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-    <PackageReference Include="NetCorePal.Context.AspNetCore" Version="1.0.4" />
-    <PackageReference Include="NetCorePal.Context.CAP" Version="1.0.4" />
-    <PackageReference Include="NetCorePal.Context.Shared" Version="1.0.4" />
-    <PackageReference Include="NetCorePal.Extensions.AspNetCore" Version="1.0.4" />
-    <PackageReference Include="NetCorePal.Extensions.DistributedLocks.Redis" Version="1.0.4" />
-    <PackageReference Include="NetCorePal.Extensions.DistributedTransactions.CAP.PostgreSql" Version="1.0.4" />
-    <PackageReference Include="NetCorePal.Extensions.Mappers" Version="1.0.4" />
-    <PackageReference Include="NetCorePal.Extensions.MultiEnv" Version="1.0.4" />
-    <PackageReference Include="NetCorePal.Extensions.Primitives" Version="1.0.4" />
+    <PackageReference Include="NetCorePal.Context.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="NetCorePal.Context.CAP" Version="1.1.0" />
+    <PackageReference Include="NetCorePal.Context.Shared" Version="1.1.0" />
+    <PackageReference Include="NetCorePal.Extensions.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="NetCorePal.Extensions.DistributedLocks.Redis" Version="1.1.0" />
+    <PackageReference Include="NetCorePal.Extensions.DistributedTransactions.CAP.PostgreSql" Version="1.1.0" />
+    <PackageReference Include="NetCorePal.Extensions.Mappers" Version="1.1.0" />
+    <PackageReference Include="NetCorePal.Extensions.MultiEnv" Version="1.1.0" />
+    <PackageReference Include="NetCorePal.Extensions.Primitives" Version="1.1.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
     <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="8.2.1" />

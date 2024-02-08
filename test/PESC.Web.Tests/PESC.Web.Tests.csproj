@@ -16,13 +16,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.1" />
     <PackageReference Include="Moq" Version="4.20.70" />
-    <PackageReference Include="NetCorePal.Extensions.NewtonsoftJson" Version="1.0.4" />
+    <PackageReference Include="NetCorePal.Extensions.NewtonsoftJson" Version="1.1.0" />
     <PackageReference Include="Testcontainers" Version="3.7.0" />
     <PackageReference Include="Testcontainers.MySql" Version="3.7.0" />
     <PackageReference Include="Testcontainers.PostgreSql" Version="3.7.0" />
     <PackageReference Include="Testcontainers.RabbitMq" Version="3.7.0" />
     <PackageReference Include="Testcontainers.Redis" Version="3.7.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.8.0" />
     <PackageReference Include="xunit" Version="2.6.6" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">

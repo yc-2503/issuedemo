@@ -6,7 +6,7 @@ namespace PESC.Web.Tests
 {
     public class MyWebApplicationFactory : WebApplicationFactory<Program>
     {
-        private TestContainerFixture _containers = new TestContainerFixture();
+        private readonly TestContainerFixture _containers = new TestContainerFixture();
 
         static MyWebApplicationFactory()
         {
@@ -15,7 +15,6 @@ namespace PESC.Web.Tests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            //builder.UseSetting("ConnectionStrings:PostgreSQL", postgreSqlContainer.GetConnectionString());
             builder.UseSetting("ConnectionStrings:Redis", _containers.RedisContainer.GetConnectionString());
             builder.UseSetting("ConnectionStrings:Postgresql", _containers.PostgreSqlContainer.GetConnectionString());
             builder.UseSetting("RabbitMQ:Port", _containers.RabbitMqContainer.GetMappedPublicPort(5672).ToString());
