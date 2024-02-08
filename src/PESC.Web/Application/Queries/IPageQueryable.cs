@@ -6,7 +6,7 @@ namespace PESC.Web.Application.Queries
 {
     public interface IPageQueryable<TEntity,TQCondition> where TQCondition : PageQueryBaseCondition
     {
-        Task<int> FindManyCountAsync(TQCondition queryCondition);
+        Task<int> FindCountAsync(TQCondition queryCondition);
         Task<IEnumerable<TEntity>> FindManyAsync(TQCondition queryCondition);
     }
 }

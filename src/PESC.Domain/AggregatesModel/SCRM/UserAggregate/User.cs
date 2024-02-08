@@ -56,7 +56,7 @@ public class User : AggregateRoot<UserId>, IMultiTenant
     public DateTime CreationTime { get; set; }
     public UserId? CreatorId { get; set; }
     public DateTime? LastModificationTime { get; set; }
-    public string? LastModifierId { get; set; }
+    public UserId? LastModifierId { get; set; }
 
     /// <summary>
     /// 用户登录
@@ -87,15 +87,15 @@ public class User : AggregateRoot<UserId>, IMultiTenant
         FailCnt = 0;
         Password = ToMD5(pwd);
     }
-    public void InitNewUser(UserId creator)
+    public void InitNewUser(UserId operaterId)
     {
-        CreatorId = creator;
+        CreatorId = operaterId;
         LastModificationTime = DateTime.Now;
         CreationTime = DateTime.Now;
         LastLoginTime = DateTime.Now;
         AddDomainEvent(new UserCreatedDomainEvent(this));
     }
-    public void UpdateUser(User user)
+    public void UpdateUser(UserId operaterId, User user)
     {
         Name = user.Name;
         Desc = user.Desc;
@@ -103,5 +103,12 @@ public class User : AggregateRoot<UserId>, IMultiTenant
         Mail = user.Mail;
         Phone = user.Phone;
         LastModificationTime = DateTime.Now;
+        LastModifierId = operaterId;
     }
+    public void DeleteUser(UserId operaterId)
+    {
+        IsDeleted = true;
+        LastModificationTime = DateTime.Now;
+        LastModifierId = operaterId;
+    }   
 }

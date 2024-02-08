@@ -6,7 +6,7 @@ namespace PESC.Web.Application.Queries;
 /// <summary>
 /// 用户查询接口，这个接口仅仅是用来做单元测试的，实际上是不需要的
 /// </summary>
-public interface IUserQuery : IPageQuerator<User, UserQueryCondition>, IPageQueryable<User, UserQueryCondition> 
+public interface IUserQuery :  IPageQueryable<User, UserQueryCondition> 
 {
     /// <summary>
     /// 查询用户

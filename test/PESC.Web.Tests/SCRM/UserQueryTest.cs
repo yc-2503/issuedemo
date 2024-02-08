@@ -68,20 +68,20 @@ namespace PESC.Web.Tests.SCRM
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 db.Database.Migrate();
                 UserQuery userQuery = new UserQuery(db);
-                int initCnt = await userQuery.FindManyCountAsync(new UserQueryCondition() { PageIndex = 1, PageSize = 10, TenantId = "SICC-C-GR" });
+                int initCnt = await userQuery.FindCountAsync(new UserQueryCondition() { PageIndex = 1, PageSize = 10, TenantId = "SICC-C-GR" });
                 db.Users.Add(new User("SICC-C-GR", "Y00538", "AAA"));
                 await db.SaveEntitiesAsync();
-                int addOne = await userQuery.FindManyCountAsync(new UserQueryCondition() { PageIndex = 1, PageSize = 10, TenantId = "SICC-C-GR" });
+                int addOne = await userQuery.FindCountAsync(new UserQueryCondition() { PageIndex = 1, PageSize = 10, TenantId = "SICC-C-GR" });
                 Assert.Equal(addOne, initCnt + 1);
-                int addOnePage2 = await userQuery.FindManyCountAsync(new UserQueryCondition() { PageIndex = 2, PageSize = initCnt + 1, TenantId = "SICC-C-GR" });
+                int addOnePage2 = await userQuery.FindCountAsync(new UserQueryCondition() { PageIndex = 2, PageSize = initCnt + 1, TenantId = "SICC-C-GR" });
                 Assert.Equal(addOne, addOnePage2);
-                int addOneOtherFactory = await userQuery.FindManyCountAsync(new UserQueryCondition() { PageIndex = 2, PageSize = 10, TenantId = "SICC-D-GR" });
+                int addOneOtherFactory = await userQuery.FindCountAsync(new UserQueryCondition() { PageIndex = 2, PageSize = 10, TenantId = "SICC-D-GR" });
                 Assert.Equal(0, addOneOtherFactory);
 
             }
         }
         [Fact]
-        public async void FindUsersTest()
+        public async void FindUsers_Single_TakeTwo()
         {
             using (var scope = _factory.Services.CreateScope())
             {
@@ -93,13 +93,42 @@ namespace PESC.Web.Tests.SCRM
                 db.Users.Add(new User("SICC-A-WW", "Y00537", "AAA"));
                 await db.SaveEntitiesAsync();
 
-                var addOne = await userQuery.FindManyAsync(new UserQueryCondition() { PageIndex = 1, PageSize = 10, TenantId = "SICC-A-WW" });
+                var addOne = await userQuery.FindManyAsync(new UserQueryCondition() { PageIndex = 1, PageSize = 2, TenantId = "SICC-A-WW" });
+                Assert.NotNull(addOne);
+                Assert.NotEmpty(addOne);
+                Assert.Single(addOne);
                 Assert.True(addOne.Any(c => c.LoginId == "Y00537" && c.TenantId == "SICC-A-WW"));
 
                 var addOnePage2 = await userQuery.FindManyAsync(new UserQueryCondition() { PageIndex = 2, PageSize = initUsers.Count() + 1, TenantId = "SICC-A-WW" });
                 Assert.Empty(addOnePage2);
                 var addOneOtherFactory = await userQuery.FindManyAsync(new UserQueryCondition() { PageIndex = 2, PageSize = 10, TenantId = "SICC-D-WW" });
                 Assert.Empty(addOneOtherFactory);
+
+            }
+        }
+        [Fact]
+        public async void FindUsers_Three_TakeTwo()
+        {
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.Migrate();
+                UserQuery userQuery = new UserQuery(db);
+                var initUsers = await userQuery.FindManyAsync(new UserQueryCondition() { PageIndex = 1, PageSize = 10, TenantId = "SICC-A-WZ" });
+
+                db.Users.Add(new User("SICC-A-WZ", "Y00537", "AAA"));
+                db.Users.Add(new User("SICC-A-WZ", "Y00538", "AAA"));
+                db.Users.Add(new User("SICC-A-WZ", "Y00539", "AAA"));
+
+                await db.SaveEntitiesAsync();
+
+                var addOne = await userQuery.FindManyAsync(new UserQueryCondition() { PageIndex = 1, PageSize = 2, TenantId = "SICC-A-WZ" });
+                Assert.NotNull(addOne);
+                Assert.NotEmpty(addOne);
+                Assert.Equal(2,addOne.Count());
+
+                var addOnePage2 = await userQuery.FindManyAsync(new UserQueryCondition() { PageIndex = 2, PageSize = initUsers.Count() + 4, TenantId = "SICC-A-WZ" });
+                Assert.Empty(addOnePage2);
 
             }
         }

@@ -63,7 +63,7 @@ public class UpdateUserCmdHandler(IUserRepository userRepository, IMapper mapper
         var user = await userRepository.GetAsync(request.User.Id!);
         if (user != null)
         {
-            user.UpdateUser(mapper.Map<User>(request.User));
+            user.UpdateUser(request.OperatorId!, mapper.Map<User>(request.User));
             return new ResponseData();
         }
         else

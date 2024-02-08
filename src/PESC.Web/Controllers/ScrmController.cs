@@ -54,6 +54,13 @@ public class ScrmController(IMediator mediator, IMapper mapper, IUserQuery userQ
         UserDto userDto = mapper.Map<UserDto>(user);
         return new ResponseData<UserDto>(userDto);
     }
+    //删除用户 软删除
+    [HttpPost]
+    public async Task<ResponseData> DeleteUser(DeleteUserCmd cmd)
+    {
+        return await mediator.Send(cmd);
+    }
+
     [HttpPost]
     public async Task<ResponseData> UpdateUser(UpdateUserCmd cmd)
     {

@@ -8,7 +8,7 @@ using PESC.Web.QueryConditions;
 
 namespace PESC.Web.Application.Queries;
 
-public class UserQuery(ApplicationDbContext applicationDbContext):PageQuery<User,UserQueryCondition>, IUserQuery
+public class UserQuery(ApplicationDbContext applicationDbContext): IUserQuery
 {
     /// <summary>
     /// 查询用户
@@ -36,7 +36,7 @@ public class UserQuery(ApplicationDbContext applicationDbContext):PageQuery<User
     {
         return await applicationDbContext.Users.AsNoTracking().Include(c=>c.Roles).FirstOrDefaultAsync(p => p.Id == userId, cancellationToken);
     }
-    public override async Task<int> FindManyCountAsync(UserQueryCondition queryCondition)
+    public async Task<int> FindCountAsync(UserQueryCondition queryCondition)
     {
         var querys = applicationDbContext.Users.AsNoTracking();
         if (queryCondition.TenantId != null)
@@ -48,13 +48,13 @@ public class UserQuery(ApplicationDbContext applicationDbContext):PageQuery<User
             querys = querys.Where(x => x.LoginId== queryCondition.LoginId);
         }
         
-        if (queryCondition.Department != null)
+        if (queryCondition.DepartmentId != null)
         {
-            querys = querys.Where(x => x.DepartmentId == queryCondition.Department);
+            querys = querys.Where(x => x.DepartmentId == queryCondition.DepartmentId);
         }
         return await querys.CountAsync();
     }
-    public override async Task<IEnumerable<User>> FindManyAsync(UserQueryCondition queryCondition)
+    public async Task<IEnumerable<User>> FindManyAsync(UserQueryCondition queryCondition)
     {
         var querys = applicationDbContext.Users.AsNoTracking();
         if(queryCondition.TenantId != null)
@@ -65,10 +65,10 @@ public class UserQuery(ApplicationDbContext applicationDbContext):PageQuery<User
         {
             querys = querys.Where(x => x.LoginId == queryCondition.LoginId);
         }
-        if (queryCondition.Department != null)
+        if (queryCondition.DepartmentId != null)
         {
-            querys = querys.Where(x => x.DepartmentId == queryCondition.Department);
+            querys = querys.Where(x => x.DepartmentId == queryCondition.DepartmentId);
         }
-        return await querys.Skip(queryCondition.PageSize * (queryCondition.PageIndex - 1)).ToListAsync();
+        return await querys.OrderBy(x=>x.Id).Skip(queryCondition.PageSize * (queryCondition.PageIndex - 1)).Take(queryCondition.PageSize).ToListAsync();
     }
 }
